@@ -41,6 +41,21 @@ EOL'
  
 [centos@ip-172-31-43-14 ~]$  cat /proc/sys/net/ipv6/conf/all/disable_ipv6
 4) Disable Transparent Hugepage:
+--------------------------------------------------------------------------------------------------------
+https://docs.cloudera.com/cloudera-manager/7.2.6/managing-clusters/topics/cm-disabling-transparent-hugepages.html
+
+cat /sys/kernel/mm/transparent_hugepage/defrag
+[always] madvise never
+
+sudo su -
+echo never > /sys/kernel/mm/transparent_hugepage/enabled
+echo never > /sys/kernel/mm/transparent_hugepage/defrag
+
+chmod +x /etc/rc.d/rc.local
+cat /sys/kernel/mm/transparent_hugepage/defrag
+always madvise [never]
+
+-------------------------------------------------------------------------------------------------------- 
  
 [centos@ip-172-31-43-14 ~]$ sudo su -c 'cat >>/etc/rc.local <<EOL
 if test -f /sys/kernel/mm/redhat_transparent_hugepage/enabled; then
@@ -72,7 +87,12 @@ EOL'
 [root@ip-172-31-43-14 ~]# chkconfig iptables off
  
 [root@ip-172-31-43-14 ~]# exit
- 
+--------------------------------------------------------------------------------------------------------  
+sudo systemctl status firewalld
+sudo systemctl disable firewalld
+sudo systemctl stop firewalld
+sudo service ufw stop
+-------------------------------------------------------------------------------------------------------- 
 
  6) Install wget & nano:
  
